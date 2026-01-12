@@ -8,9 +8,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY index.js .
 
+
 # Instalar dependencias
 RUN npm install
 
+# copiar el resto de los archivo 
+COPY users.json .
 # Exponer el puerto de la aplicación
 EXPOSE 3000
 
