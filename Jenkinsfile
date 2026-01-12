@@ -1,12 +1,13 @@
 pipeline {
     agent any
 
-  tools {
-        nodejs "NodeJS" // Configura una instalación de Node.js en Jenkins
-        dockerTool 'dockerTool'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
+    tools {
+        nodejs "NodeJS"
+        dockerTool 'dockerTool'
     }
 
     stages {
+
         stage('Instalar dependencias') {
             steps {
                 sh 'npm install'
@@ -20,18 +21,12 @@ pipeline {
         }
 
         stage('Construir Imagen Docker') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
             steps {
                 sh 'docker build -t hola-mundo-node:latest .'
             }
         }
 
         stage('Ejecutar Contenedor Node.js') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
             steps {
                 sh '''
                     docker stop hola-mundo-node || true
@@ -42,4 +37,3 @@ pipeline {
         }
     }
 }
- 
